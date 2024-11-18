@@ -1,54 +1,53 @@
 #!/bin/bash
 
-# создаём каталог task с вложенными директориями
+# Создаем каталог task с вложенными директориями
 mkdir -p task/dir1 task/dir2 task/dir3/dir4
 
-# изменяем текущую директорию на task
+# Изменяем текущую директорию на task
 cd task
 
-# создаём пустой файл task/dir2/empty
+# Создаем пустой файл task/dir2/empty
 touch dir2/empty
 
-# создаём файл task/dir2/hello.sh с таким содержанием:
-# #!/bin/bash
-# echo "$1, привет!"
-echo -e '#!/bin/bashnecho "$1, привет!"' > dir2/hello.sh
+# Создаем файл task/dir2/hello.sh с правильным содержанием
+echo -e '#!/bin/bash\necho "$1, привет!"' > dir2/hello.sh
 
-# устанавливаем для task/dir2/hello.sh права rwxrw-r--
+# Устанавливаем для task/dir2/hello.sh права rwxrw-r--
 chmod 764 dir2/hello.sh
 
-# сохраняем список файлов task/dir2 в task/dir2/list.txt
+# Сохраняем список файлов task/dir2 в task/dir2/list.txt
 ls dir2 > dir2/list.txt
 
-# копируем содержимое каталога task/dir2 в каталог task/dir3/dir4
+# Копируем содержимое каталога task/dir2 в каталог task/dir3/dir4
 cp -r dir2/* dir3/dir4/
 
-# записываем в task/dir1/summary.txt список файлов с расширением *.txt
+# Записываем в task/dir1/summary.txt список файлов с расширением *.txt
 # находящихся в task, включая поддиректории
 find . -name '*.txt' > dir1/summary.txt
 
-# дописываем в task/dir1/summary.txt содержимое task/dir2/list.txt
+# Дописываем в task/dir1/summary.txt содержимое task/dir2/list.txt
 cat dir2/list.txt >> dir1/summary.txt
 
-# определяем переменную окружения NAME со значением "Всем студентам"
-export NAME="Всем студентам"
+# Определяем переменную окружения NAME со значением "Всем студентам"
+NAME="Всем студентам"
 
-# запускаем task/dir2/hello.sh с переменной окружения NAME в качестве аргумента
-# вывод скрипта должен дописаться в файл task/dir1/summary.txt
+# Запускаем task/dir2/hello.sh с переменной окружения NAME в качестве аргумента
+# Вывод скрипта должен дописаться в файл task/dir1/summary.txt
 ./dir2/hello.sh "$NAME" >> dir1/summary.txt
 
-# перемещаем с переименованием task/dir1/summary.txt в task/Практическое задание
-mv dir1/summary.txt dir1/"Практическое задание"
+# Перемещаем с переименованием task/dir1/summary.txt в task/Практическое задание
+SUMMARY_FILE="Практическое задание"
+mv dir1/summary.txt dir1/"$SUMMARY_FILE"
 
-# выводим на консоль содержимое файла task/Практическое задание
-cat dir1/"Практическое задание"
+# Выводим на консоль содержимое файла task/Практическое задание
+cat dir1/"$SUMMARY_FILE"
 
-# ищем в файле "Практическое задание" строки, которые содержат слово "dir"
+# Ищем в файле "Практическое задание" строки, которые содержат слово "dir"
 # и затем отсортировываем их
-grep 'dir' dir1/"Практическое задание" | sort
+grep 'dir' dir1/"$SUMMARY_FILE" | sort
 
-# меняем текущую директорию на родительскую для task
+# Меняем текущую директорию на родительскую для task
 cd ..
 
-# удаляем директорию task со всем содержимым
+# Удаляем директорию task со всем содержимым
 rm -rf task
